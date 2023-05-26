@@ -1,10 +1,29 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
+import React, { FormEvent, useState } from 'react'
 
 type Props = {}
 
-function SearchBox({}: Props) {
+function SearchBox({ }: Props) {
+  const [input, setInput] = useState("")
+  const router = useRouter();
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input) return;
+
+    router.push(`/search?term=${input}`)
+  }
+
   return (
-    <div>SearchBox</div>
+    <form onSubmit={handleSearch} className='max-w-6xl mx-auto flex justify-between items-center px-5'>
+      <input type='text'
+        className='w-full h-14 rounded-sm placeholder-gray-500 text-gray-500 outline-none flex-1 bg-transparent dark:text-orange-400'
+        onChange={(e) => setInput(e.target.value)} />
+      <button
+        disabled={!input}
+        className='text-orange-400 disabled:text-gray-400'
+        type='submit'>Search</button>
+    </form>
   )
 }
 
